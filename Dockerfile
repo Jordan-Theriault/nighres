@@ -18,7 +18,7 @@ RUN python3 -m pip install --upgrade pip
 RUN cd /home/neuro/nighres && ./build.sh
 RUN cd /home/neuro/nighres && python3 -m pip install .
 
-RUN python3 -m pip install jupyter nilearn sklearn nose matplotlib scipy
+RUN python3 -m pip install jupyter jupyterlab jupyter_contrib_nbextensions traits pandas matplotlib scikit-learn seaborn https://github.com/nipy/nipype/tarball/master https://github.com/INCF/pybids/tarball/master nltools nilearn datalad[full] nipy duecredit niwidgets mne ipywidgets pynv six nibabel joblib
 COPY docker/jupyter_notebook_config.py /etc/jupyter/
 
 RUN mkdir /home/neuro/notebooks
@@ -29,12 +29,9 @@ EXPOSE 8888
 ENV TINI_VERSION v0.6.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
 RUN chmod +x /usr/bin/tini
-ENTRYPOINT ["/usr/bin/tini", "--"]
 
 EXPOSE 8888
-CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0"]
 
 RUN python3 -m pip install psutil
 
 USER neuro
-
